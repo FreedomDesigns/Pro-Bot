@@ -1,0 +1,10 @@
+C:\Users\alex\Desktop\Mumble.net-master\app\obj\x86\Debug\Mumble.net.app.csprojResolveAssemblyReference.cache
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Debug\Mumble.net.app.exe
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Debug\Mumble.net.app.pdb
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Debug\Mumble.net.lib.dll
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Debug\protobuf-net.dll
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Debug\Mumble.net.lib.pdb
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Debug\protobuf-net.pdb
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Debug\protobuf-net.xml
+C:\Users\alex\Desktop\Mumble.net-master\app\obj\x86\Debug\Mumble.net.app.exe
+C:\Users\alex\Desktop\Mumble.net-master\app\obj\x86\Debug\Mumble.net.app.pdb

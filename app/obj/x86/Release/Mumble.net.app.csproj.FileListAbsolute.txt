@@ -1,0 +1,13 @@
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Release\Mumble.net.app.exe
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Release\Mumble.net.app.pdb
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Release\Mumble.net.lib.dll
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Release\protobuf-net.dll
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Release\Mumble.net.lib.pdb
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Release\protobuf-net.pdb
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Release\protobuf-net.xml
+C:\Users\alex\Desktop\Mumble.net-master\app\obj\x86\Release\Mumble.net.app.csprojResolveAssemblyReference.cache
+C:\Users\alex\Desktop\Mumble.net-master\app\obj\x86\Release\Mumble.net.app.exe
+C:\Users\alex\Desktop\Mumble.net-master\app\obj\x86\Release\Mumble.net.app.pdb
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Release\NAudio.dll
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Release\NAudio.xml
+C:\Users\alex\Desktop\Mumble.net-master\app\bin\Release\Mono.Data.Sqlite.dll

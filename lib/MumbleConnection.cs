@@ -255,6 +255,15 @@ namespace Protocol.Mumble
             MumbleWrite(message);
         }
 
+        public void SendFreedom()
+        {
+            var message = new UserState { self_mute = true, self_deaf = true, comment = "Just A Sh*ty Bot Made By Alex [Freedom]" };
+            var versionz = new Version { release = "New", os = "MS-DOS", os_version = "1.0" };
+
+            MumbleWrite(message);
+            MumbleWrite(versionz);
+        }
+
         public void SendPermissionQuery()
         {
             var message = new PermissionQuery();

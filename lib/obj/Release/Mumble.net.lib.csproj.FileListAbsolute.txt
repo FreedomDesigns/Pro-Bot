@@ -1,10 +1,10 @@
-C:\Users\alex\Desktop\Mumble.net-master\lib\bin\Release\Mumble.net.lib.dll
 C:\Users\alex\Desktop\Mumble.net-master\lib\bin\Release\Mumble.net.lib.pdb
 C:\Users\alex\Desktop\Mumble.net-master\lib\bin\Release\protobuf-net.dll
 C:\Users\alex\Desktop\Mumble.net-master\lib\bin\Release\protobuf-net.pdb
 C:\Users\alex\Desktop\Mumble.net-master\lib\bin\Release\protobuf-net.xml
-C:\Users\alex\Desktop\Mumble.net-master\lib\obj\Release\Mumble.net.lib.dll
 C:\Users\alex\Desktop\Mumble.net-master\lib\obj\Release\Mumble.net.lib.pdb
 C:\Users\alex\Desktop\Mumble.net-master\lib\bin\Release\Mono.Data.Sqlite.dll
 C:\Users\alex\Desktop\Mumble.net-master\lib\bin\Release\Community.CsharpSqlite.dll
 C:\Users\alex\Desktop\Mumble.net-master\lib\bin\Release\ManagedSQLite.dll
+C:\Users\alex\Desktop\Mumble.net-master\lib\bin\Release\Mumble.net.lib.dll
+C:\Users\alex\Desktop\Mumble.net-master\lib\obj\Release\Mumble.net.lib.dll

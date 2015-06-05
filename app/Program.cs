@@ -8,6 +8,8 @@ using System.Threading;
 using Protocol.Mumble;
 using System.Reflection;
 using Mono.Data.Sqlite;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Mumble.net.app
 {
@@ -15,39 +17,28 @@ namespace Mumble.net.app
     {
         static void Main(string[] args)
         {
-
             DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
-            string BUILDNUMBER_STR = "1";
+            string BUILDNUMBER_STR = "2";
             string VERSIONSTRING = ("Zero 1.0-" + BUILDNUMBER_STR);
-            string Host = "absy.ddns.net";
+            string Host = "absy.ddns.net"; // 
             string BotName = "ProBot";
             string DB = @"XNP.Sqlite";
 
 
             // Console header
             Console.WriteLine("+-------------------------------------+");
-            Console.WriteLine("| Freedom's Mumble Bot!                |");
+            Console.WriteLine("| Freedom's Mumble Bot!               |");
             Console.WriteLine("+-------------------------------------+");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("{0} built on {1}", VERSIONSTRING, buildDate);
-            Console.WriteLine("http://FreedomTS.tk");
+            Console.WriteLine("Running on {0}", Environment.OSVersion.ToString());
             Console.ResetColor();
             Console.WriteLine("+-------------------------------------+");
             //Console.WriteLine("Enter a command you want to RCON!");
             //Console.WriteLine("For help and some simple commands type '!help'");
             //Console.WriteLine("+----------------------------------------------+");
 
-            Console.WriteLine("Connecting ...");
-
-            var client = new MumbleClient("1.2.0", Host, BotName);
-
-            client.Connect();
-
-            Console.Title = Host + "- " + BotName;
-
-            Console.WriteLine("Connected As: ProBot");
-
-            // LastSeen Txt creator
+            // Database creator
             if (!File.Exists(DB))
             {
                 Console.WriteLine("No Database Found, Creating New File");
@@ -69,6 +60,16 @@ namespace Mumble.net.app
                         cmd.ExecuteNonQuery();
                 Console.WriteLine("Database Complete.");
             }
+
+            Console.WriteLine("Connecting ...");
+
+            var client = new MumbleClient("1.2.0", Host, BotName);
+
+            client.Connect();
+
+            Console.Title = Host + "- " + BotName;
+
+            Console.WriteLine("Connected As: ProBot");
 
             for (; ; )
             {

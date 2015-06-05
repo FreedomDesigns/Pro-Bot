@@ -36,11 +36,18 @@ namespace Protocol.Mumble
         {
             this.client = client;
 
-            ID = message.channel_id;
-            Name = message.name;
+            try
+            {
+                ID = message.channel_id;
+                Name = message.name;
 
-            client.Channels.Add(ID, this);
-            client.Channels.TryGetValue(message.parent, out parentChannel);
+                client.Channels.Add(ID, this);
+                client.Channels.TryGetValue(message.parent, out parentChannel);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(string.Format("Fatal error has occurred: {0}", e));
+            }
 
             if (IsRoot())
             {
@@ -65,12 +72,26 @@ namespace Protocol.Mumble
 
         internal void AddLocalUser(MumbleUser user)
         {
-            users.Add(user);
+            try
+            {
+                users.Add(user);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(string.Format("Fatal error has occurred: {0}", e));
+            }
         }
 
         internal void RemoveLocalUser(MumbleUser user)
         {
-            users.Remove(user);
+            try
+            {
+                users.Remove(user);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(string.Format("Fatal error has occurred: {0}", e));
+            }
         }
 
         public string Tree(int level = 0)

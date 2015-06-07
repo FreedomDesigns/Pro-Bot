@@ -75,6 +75,16 @@ namespace Protocol.Mumble
 
             pingerThread = new Thread(Pinger);
             pingerThread.Start();
+
+           /* for (; ; )
+            {
+                if (!tcpClient.Connected)
+                {
+                    Connect();
+                    continue;
+                }
+                Thread.Sleep(10000);
+            }*/
         }
 
         public void Disconnect()

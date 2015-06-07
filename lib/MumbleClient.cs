@@ -6,11 +6,14 @@ using Protocol.Mumble;
 using Mono.Data.Sqlite;
 using System.Globalization;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Protocol.Mumble
 {
     public class MumbleClient : MumbleConnection
     {
+        #region Vars
+
         private readonly Dictionary<UInt32, MumbleChannel> channels = new Dictionary<UInt32, MumbleChannel>();
 
         public Dictionary<UInt32, MumbleChannel> Channels
@@ -48,8 +51,15 @@ namespace Protocol.Mumble
         public event EventHandler<MumblePacketEventArgs> OnConnected;
         public event EventHandler<MumblePacketEventArgs> OnTextMessage;
 
-        public string DB = @"XNP.Sqlite";
+        public string DB;
+        public string BotVersion;
         private DateTime startTime = DateTime.Now;
+
+        private Thread ChannelThread;
+
+        #endregion
+
+        #region Connect, Update and Database
 
         public MumbleClient(string version, string host, string username, int port = 64738) :
             base(host, username, port)
@@ -60,11 +70,22 @@ namespace Protocol.Mumble
 
         public new void Connect()
         {
+            System.Threading.Thread.Sleep(100); //This allows time for the DB name to transfer across.
             base.Connect();
 
             SendVersion(Version);
             SendAuthenticate();
             SendFreedom();
+            SendVersion("1.0");
+
+            ChannelThread = new Thread(CodingMe);
+            ChannelThread.Start();         
+        }
+
+        private void CodingMe()
+        {
+            var channel = FindChannel("Coding");
+            SwitchChannel(channel);
         }
 
         private void ProtocolHandler(object sender, MumblePacketEventArgs args)
@@ -90,6 +111,22 @@ namespace Protocol.Mumble
 
             DispatchEvent(this, OnConnected, new MumblePacketEventArgs(message));
         }
+
+        /*public void GiveMe()
+        {
+            DB = database;
+            BotVersion = verzon;
+        }*/
+
+        public void DoIKnowYou(string database, string verzon)
+        {
+            DB = database;
+            BotVersion = verzon;
+        }
+
+        #endregion
+
+        #region Text and Commands
 
         public void Update(TextMessage message)
         {
@@ -173,7 +210,7 @@ namespace Protocol.Mumble
                          * Will display the current version of the bot *
                          *---------------------------------------------*/
 
-                        SendTextMessageToUser("<b>Currently Running Version 0.2</b>", User);
+                        SendTextMessageToUser(string.Format("<b>Currently Running Version: {0}</b>", BotVersion), User);
                         break;
                     case "!time":
                         /*--------------------------------------------------*
@@ -331,11 +368,19 @@ namespace Protocol.Mumble
             }
         }
 
+        #endregion
+
+        #region Channel Switch
+
         public void SwitchChannel(MumbleChannel channel)
         {
             SendUserState(channel);
 
         }
+
+        #endregion
+
+        #region Find Area
 
         public MumbleChannel FindChannel(string name)
         {
@@ -353,5 +398,7 @@ namespace Protocol.Mumble
         {
             return sequence += 2;
         }
+
+        #endregion
     }
 }

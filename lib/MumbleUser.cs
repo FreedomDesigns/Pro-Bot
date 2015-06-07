@@ -6,6 +6,9 @@ namespace Protocol.Mumble
 {
     public class MumbleUser
     {
+
+        #region Vars
+
         private readonly MumbleClient client;
 
         public MumbleChannel Channel { get; private set; }
@@ -17,11 +20,14 @@ namespace Protocol.Mumble
         public bool MuteSelf { get; private set; }
 
         // Private only vars
-        public string DB = @"XNP.Sqlite";
-        private string online = "";
-        private string messageUpdate = "";
-        private string lastTime = "";
+        private string online;
+        private string messageUpdate;
+        private string lastTime;
         private DateTime NOW = DateTime.Now;
+
+        #endregion
+
+        #region User Joins
 
         public MumbleUser(MumbleClient client, UserState message)
         {
@@ -29,18 +35,25 @@ namespace Protocol.Mumble
             Name = message.name;
             Session = message.session;
 
-            client.Users.Add(Session, this);
+            try
+            {
+                client.Users.Add(Session, this);
 
-            Channel = client.Channels[message.channel_id];
+                Channel = client.Channels[message.channel_id];
 
-            Channel.AddLocalUser(this);
+                Channel.AddLocalUser(this);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(string.Format("Fatal error has occurred - 1332: {0}", e));
+            }
 
             // Writes user join time and name in console
             Console.WriteLine(NOW + " - " + Name + " Joined Server");
 
             // Connects to Database
             SqliteConnection m_dbConnection;
-            m_dbConnection = new SqliteConnection("URI=file:" + DB + ",version=3");
+            m_dbConnection = new SqliteConnection("URI=file:" + client.DB + ",version=3");
             m_dbConnection.Open();
 
             // Query if name exists on User table
@@ -68,12 +81,23 @@ namespace Protocol.Mumble
             // Runs the insert and update commands above into database
             SqliteCommand command = new SqliteCommand(online, m_dbConnection);
             command.ExecuteNonQuery();
-            SqliteCommand NewMw = new SqliteCommand(messageUpdate, m_dbConnection);
-            NewMw.ExecuteNonQuery();
+            try
+            {
+                SqliteCommand NewMw = new SqliteCommand(messageUpdate, m_dbConnection);
+                NewMw.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                // Oh Sh*t
+            }
 
-            // This wait is need to allow time for the user to be process correctly or all hell breaks lose
+            // This wait is needed to allow time for the user to be process correctly or all hell breaks lose
             System.Threading.Thread.Sleep(100);
         }
+
+        #endregion
+
+        #region Messages
 
         public void CheckMessages(uint actor)
         {
@@ -82,7 +106,7 @@ namespace Protocol.Mumble
 
             // Connects to database
             SqliteConnection m_dbConnection;
-            m_dbConnection = new SqliteConnection("Data Source=" + DB + ";Version=3;");
+            m_dbConnection = new SqliteConnection("Data Source=" + client.DB + ";Version=3;");
             m_dbConnection.Open();
 
             // Query's database for if user has any messages
@@ -96,37 +120,60 @@ namespace Protocol.Mumble
                 while (rdr.Read())
                 {
                     // Sends message to user with all required information
-                    client.SendTextMessageToUser("<b>" + rdr["From"] + " - " + rdr["Message"] + " </b>", User);
+                    client.SendTextMessageToUser(string.Format("<b>{0} - {1}</b>", rdr["From"], rdr["Message"]), User);
                 }
             }
         }
 
+        #endregion
+
+        #region User Update
+
         public void Update(UserState message)
         {
-            if (message.channel_idSpecified && message.channel_id != Channel.ID)
+            // Leave this Try and Catch here or program will crash due a bug, I are currently looking at.
+            try
             {
-                Channel.RemoveLocalUser(this);
-                Channel = client.Channels[message.channel_id];
-                Channel.AddLocalUser(this);
-            }
+                if (message.channel_idSpecified && message.channel_id != Channel.ID)
+                {
+                    Channel.RemoveLocalUser(this);
+                    Channel = client.Channels[message.channel_id];
+                    Channel.AddLocalUser(this);
+                }
 
-            if (message.deafSpecified) { Deaf = message.deaf; }
-            if (message.self_deafSpecified) { DeafSelf = message.self_deaf; }
-            if (message.muteSpecified) { Mute = message.mute; }
-            if (message.self_muteSpecified) { MuteSelf = message.self_mute; }
+                if (message.deafSpecified) { Deaf = message.deaf; }
+                if (message.self_deafSpecified) { DeafSelf = message.self_deaf; }
+                if (message.muteSpecified) { Mute = message.mute; }
+                if (message.self_muteSpecified) { MuteSelf = message.self_mute; }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine(string.Format("{0} - Error has occurred on update again", NOW));
+            }
         }
 
+        #endregion
+
+        #region User Leaves
+
         public void Update(UserRemove message)
-        {        
-            client.Channels.Remove(Session);
-            Channel.RemoveLocalUser(this);
+        {
+            try
+            {
+                client.Channels.Remove(Session);
+                Channel.RemoveLocalUser(this);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(string.Format("Fatal error has occurred - 1352: {0}", e));
+            }
 
             // Writes user leave time and name in console
             Console.WriteLine(NOW + " - " + Name + " Left server");
 
             // Connects to database
             SqliteConnection m_dbConnection;
-            m_dbConnection = new SqliteConnection("Data Source=" + DB + ";Version=3;");
+            m_dbConnection = new SqliteConnection("Data Source=" + client.DB + ";Version=3;");
             m_dbConnection.Open();
 
             lastTime = "UPDATE `Users` SET `LastSeen`='" + NOW + "', `Online`='0' WHERE `Name`='" + Name.ToUpper() + "'";
@@ -136,10 +183,16 @@ namespace Protocol.Mumble
             command.ExecuteNonQuery();
         }
 
+        #endregion
+
+        #region Tree
+
         public string Tree(int level)
         {
             return new String(' ', level) + "U " + Name + " (" + Session + ")" + Environment.NewLine;
         }
+
+        #endregion
 
     }
 }

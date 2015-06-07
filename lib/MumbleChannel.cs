@@ -7,6 +7,8 @@ namespace Protocol.Mumble
 
     public class MumbleChannel
     {
+        #region Vars
+
         private MumbleClient client;
 
         private MumbleChannel parentChannel;
@@ -32,6 +34,10 @@ namespace Protocol.Mumble
         public string Name { get; private set; }
         public uint ID { get; private set; }
 
+        #endregion
+
+        #region Mumble Channel
+
         public MumbleChannel(MumbleClient client, ChannelState message)
         {
             this.client = client;
@@ -46,7 +52,7 @@ namespace Protocol.Mumble
             }
             catch (Exception e)
             {
-                Console.WriteLine(string.Format("Fatal error has occurred: {0}", e));
+                Console.WriteLine(string.Format("Fatal error has occurred - 1893: {0}", e));
             }
 
             if (IsRoot())
@@ -55,20 +61,38 @@ namespace Protocol.Mumble
             }
             else
             {
-                parentChannel.subChannels.Add(this);
+                try
+                {
+                    parentChannel.subChannels.Add(this);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(string.Format("Fatal error has occurred - 1092: {0}", e));
+                }
             }
         }
+
+        #endregion
+
+        #region IsRoot
 
         public bool IsRoot()
         {
             return this == parentChannel;
         }
 
+        #endregion
+
+        #region Update
 
         public void Update(ChannelState message)
         {
 
         }
+
+        #endregion
+
+        #region Add and Remove user from Users
 
         internal void AddLocalUser(MumbleUser user)
         {
@@ -94,6 +118,10 @@ namespace Protocol.Mumble
             }
         }
 
+        #endregion
+
+        #region Tree
+
         public string Tree(int level = 0)
         {
             string result = new String(' ', level) + "C " + Name + " (" + ID + ")" + Environment.NewLine;
@@ -110,5 +138,7 @@ namespace Protocol.Mumble
 
             return result;
         }
+
+        #endregion
     }
 }

@@ -73,14 +73,23 @@ Command List
 * `!about`
    * Level 0  
    * Displays information about pro-bot
+* `!admins`
+   * Level 0  
+   * Displays the current users with levels 50 or above that are online
+* `!register`
+   * Level 0  
+   * Sets the users group to registered [25]
 * `!lastseen <user name>`
    * Level 25  
-   * Displays the current status of the user with either 'User is online now' or 'User was last online - '%t'
-* `!msg <username> <message>`
+   * Displays the current status of the user with either 'User is online now' or 'User was last online'
+* `!msg <user name> <message>`
    * Level 25  
    * Stores a message to be displayed to the user specified when they next appear online
+* `!regtest `
+   * Level 25  
+   * Displays the current users group name and level
 * `!warn <user name>`
-   * Level 100  
+   * Level 50  
    * Removes user specified and resets them back to guest [0]
 * `!sayall <message>`
    * Level 50  

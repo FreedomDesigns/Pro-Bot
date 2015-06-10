@@ -38,23 +38,38 @@ Feature List
 - Custom commands.
 - More Coming Soon.
 
+Levels
+=================================================================================
+
+* `!ver`
+   * Level 0   
+   * Displays the current version of pro-bot
+
 =================================================================================
 
 Commands List:
 ------
 * `!ver`
-    * Displays the current version of pro-bot
+   * Level 0   
+   * Displays the current version of pro-bot
 * `!uptime`
-    * Displays the current runtime of pro-bot
+   * Level 0  
+   * Displays the current runtime of pro-bot
 * `!time`
-    * Displays the current time of pro-bot
+   * Level 0  
+   * Displays the current time of pro-bot
 * `!about`
-    * Displays information about pro-bot
+   * Level 0  
+   * Displays information about pro-bot
 * `!lastseen <username>`
-    * Displays the current status of the user with either 'User is online now' or 'User was last online - '00/00/00 00:00:00'
+   * Level 25  
+   * Displays the current status of the user with either 'User is online now' or 'User was last online - '00/00/00 00:00:00'
 * `!msg <username> <message>`
-    * Stores a message to be displayed to the user when they next appear online
-* `!move <channel name>`
-    * Moves pro-bot the channel stated
+   * Level 25  
+   * Stores a message to be displayed to the user when they next appear online
 * `!sayall <message>`
-    * Sends the message stated to all channels
+   * Level 50  
+   * Sends the message stated to all channels
+* `!move <channel name>`
+   * Level 75  
+   * Moves pro-bot the channel stated

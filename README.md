@@ -59,10 +59,8 @@ Levels
    * Main administrators of server
    * Has full control over bot.
 
+Command List
 =================================================================================
-
-Commands List:
-------
 * `!ver`
    * Level 0   
    * Displays the current version of pro-bot
